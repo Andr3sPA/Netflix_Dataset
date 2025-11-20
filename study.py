@@ -1,4 +1,20 @@
+import os
+from dotenv import load_dotenv
 import pandas as pd
+import os
+import asyncio
+import re
+from sqlalchemy import text
+from dotenv import load_dotenv
+from sqlalchemy.ext.asyncio import create_async_engine
 
-df = pd.read_csv('Netflix_Data.csv')
-print(df)
+load_dotenv()
+
+async def async_main() -> None:
+    engine = create_async_engine(re.sub(r'^postgresql:', 'postgresql+asyncpg:', os.getenv('DATABASE_URL')), echo=True)
+    async with engine.connect() as conn:
+        result = await conn.execute(text("select 'hello world'"))
+        print(result.fetchall())
+    await engine.dispose()
+
+asyncio.run(async_main())
