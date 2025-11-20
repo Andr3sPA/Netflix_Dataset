@@ -3,3 +3,5 @@ numpy
 sqlalchemy
 psycopg[binary]
 python-dotenv
+asyncpg
+psycopg2
